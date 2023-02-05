@@ -2,6 +2,9 @@ name: 'increment-version-action'
 description: 'GitHub Action that increments version based on the current latest release'
 author: 'scomans'
 inputs:
+  repo:
+    required: true
+    description: 'The report to check for releases. Example: scomans/increment-version-action'
   releaseType:
     required: true
     description: 'The release type. Possible values: MAJOR, MINOR, PATCH'

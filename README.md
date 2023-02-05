@@ -4,9 +4,13 @@ This action gets the apps affected by the changes since the last successful buil
 
 ## Inputs
 
+### `repo`
+
+**Required** The report to check for releases. Example: `scomans/increment-version-action`
+
 ### `releaseType`
 
-**Required** The release type. Possible values: MAJOR, MINOR, PATCH
+**Required** The release type. Possible values: `MAJOR`, `MINOR`, `PATCH`
 
 ### `github_token`
 
