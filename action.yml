@@ -5,6 +5,9 @@ inputs:
   repo:
     required: true
     description: 'The report to check for releases. Example: scomans/increment-version-action'
+  tagPrefix:
+    required: false
+    description: 'The prefix that might be in front of the version. Example: `v`'
   releaseType:
     required: true
     description: 'The release type. Possible values: MAJOR, MINOR, PATCH'

@@ -8,6 +8,10 @@ This action gets the apps affected by the changes since the last successful buil
 
 **Required** The report to check for releases. Example: `scomans/increment-version-action`
 
+### `tagPrefix`
+
+The prefix that might be in front of the version. Example: `v`
+
 ### `releaseType`
 
 **Required** The release type. Possible values: `MAJOR`, `MINOR`, `PATCH`
