@@ -1,11 +1,11 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import {inc, ReleaseType} from 'semver'
+import {inc} from 'semver'
 
 
 async function run(): Promise<void> {
   const repo = core.getInput('repo').toUpperCase().split('/')
-  const releaseType = core.getInput('releaseType').toUpperCase()
+  const releaseType = core.getInput('releaseType').toLowerCase()
   const token = core.getInput('github_token')
   const tagPrefix = core.getInput('tagPrefix')
 
@@ -15,9 +15,9 @@ async function run(): Promise<void> {
   }
 
   switch (releaseType) {
-    case 'MAJOR':
-    case 'MINOR':
-    case 'PATCH':
+    case 'major':
+    case 'minor':
+    case 'patch':
       break
     default:
       core.setFailed(`Invalid release type "${releaseType}". Must be one of: MAJOR, MINOR, PATCH`)
@@ -33,7 +33,7 @@ async function run(): Promise<void> {
     latestVersion = latestVersion.substring(tagPrefix.length)
   }
   core.info(`ℹ️ Current latest version (without prefix) ${latestVersion}`)
-  let newVersion = inc(latestVersion, releaseType as ReleaseType)
+  let newVersion = inc(latestVersion, releaseType)
 
   core.setOutput('newVersion', newVersion)
   core.info(`ℹ️ Setting new version to ${newVersion}`)
