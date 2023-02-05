@@ -1,0 +1,18 @@
+name: 'increment-version-action'
+description: 'GitHub Action that increments version based on the current latest release'
+author: 'scomans'
+inputs:
+  releaseType:
+    required: true
+    description: 'The release type. Possible values: MAJOR, MINOR, PATCH'
+  github_token:
+    required: false
+    description: 'GitHub token to talk to the API with'
+
+outputs:
+  newVersion:
+    description: 'The version after the increment'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
