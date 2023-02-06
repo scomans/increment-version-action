@@ -3,15 +3,14 @@ import * as github from '@actions/github';
 import { inc } from 'semver';
 
 async function run(): Promise<void> {
-  const repo = (core.getInput('repo') ?? process.env.GITHUB_REPOSITORY).split('/');
   const releaseType = core.getInput('releaseType').toLowerCase();
   const token = core.getInput('github_token');
-  const tagPrefix = core.getInput('tagPrefix');
+  const tagPrefix = core.getInput('tagPrefix') || undefined;
+  let repo = (core.getInput('repo') || undefined)?.split('/');
+  repo ||= [github.context.repo.owner, github.context.repo.repo];
 
   if (repo.length !== 2) {
-    core.setFailed(
-      `Invalid repo "${core.getInput('repo') ?? process.env.GITHUB_REPOSITORY}". Must be in the format: <owner>/<repo>`
-    );
+    core.setFailed(`Invalid repo "${repo.join('/')}". Must be in the format: <owner>/<repo>`);
     return;
   }
 
@@ -40,7 +39,7 @@ async function run(): Promise<void> {
   let newVersion = inc(latestVersion, releaseType);
 
   core.setOutput('newVersion', newVersion);
-  core.info(`ℹ️ Setting new version to ${newVesion}`);
+  core.info(`ℹ️ Setting new version to ${newVersion}`);
 }
 
 void run();
