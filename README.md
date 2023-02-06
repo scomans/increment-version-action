@@ -6,7 +6,8 @@ This action gets the apps affected by the changes since the last successful buil
 
 ### `repo`
 
-**Required** The report to check for releases. Example: `scomans/increment-version-action`
+The report to check for releases (Defaults to environment variable: `GITHUB_REPOSITORY`).
+Example: `scomans/increment-version-action`
 
 ### `tagPrefix`
 

@@ -4,13 +4,13 @@ import {inc} from 'semver'
 
 
 async function run(): Promise<void> {
-  const repo = core.getInput('repo').toUpperCase().split('/')
+  const repo = (core.getInput('repo') ?? process.env.GITHUB_REPOSITORY).split('/')
   const releaseType = core.getInput('releaseType').toLowerCase()
   const token = core.getInput('github_token')
   const tagPrefix = core.getInput('tagPrefix')
 
   if (repo.length !== 2) {
-    core.setFailed(`Invalid repo "${releaseType}". Must be in the format: <owner>/<repo>`)
+    core.setFailed(`Invalid repo "${(core.getInput('repo') ?? process.env.GITHUB_REPOSITORY)}". Must be in the format: <owner>/<repo>`)
     return
   }
 

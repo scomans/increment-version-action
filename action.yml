@@ -3,7 +3,7 @@ description: 'GitHub Action that increments version based on the current latest 
 author: 'scomans'
 inputs:
   repo:
-    required: true
+    required: false
     description: 'The report to check for releases. Example: scomans/increment-version-action'
   tagPrefix:
     required: false
