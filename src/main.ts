@@ -39,6 +39,7 @@ async function run(): Promise<void> {
   let newVersion = inc(latestVersion, releaseType);
 
   core.setOutput('newVersion', newVersion);
+  core.setOutput('currentVersion', latestVersion);
   core.info(`ℹ️ Setting new version to ${newVersion}`);
 }
 

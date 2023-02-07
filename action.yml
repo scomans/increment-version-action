@@ -18,6 +18,8 @@ inputs:
 outputs:
   newVersion:
     description: 'The version after the increment'
+  currentVersion:
+    description: 'The version before the increment'
 
 runs:
   using: 'node16'

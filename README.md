@@ -27,6 +27,10 @@ The prefix that might be in front of the version. Example: `v`
 
 The version after the increment
 
+### `currentVersion`
+
+The version before the increment
+
 ## Example usage
 
 ```yaml
