@@ -22,5 +22,5 @@ outputs:
     description: 'The version before the increment'
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
