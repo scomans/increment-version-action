@@ -1,11 +1,12 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { inc } from 'semver';
+import { inc, major } from 'semver';
 
 async function run(): Promise<void> {
   const releaseType = core.getInput('releaseType').toLowerCase();
   const token = core.getInput('github_token');
   const tagPrefix = core.getInput('tagPrefix') || undefined;
+  const yearUpdate = core.getBooleanInput('year');
   let repo = (core.getInput('repo') || undefined)?.split('/');
   repo ||= [github.context.repo.owner, github.context.repo.repo];
 
@@ -36,7 +37,15 @@ async function run(): Promise<void> {
     latestVersion = latestVersion.substring(tagPrefix.length);
   }
   core.info(`ℹ️ Current latest version (without prefix) ${latestVersion}`);
-  let newVersion = inc(latestVersion, releaseType);
+  let newVersion: string;
+  if (yearUpdate && releaseType === 'minor' && major(latestVersion) !== new Date().getFullYear()) {
+    newVersion = `${new Date().getFullYear()}.0.0`;
+  } else if (yearUpdate && releaseType === 'major') {
+    core.setFailed(`ℹ️ Cannot update to a new major version with year update enabled.`);
+    return;
+  } else {
+    newVersion = inc(latestVersion, releaseType);
+  }
 
   core.setOutput('newVersion', newVersion);
   core.setOutput('currentVersion', latestVersion);
