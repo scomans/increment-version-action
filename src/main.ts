@@ -39,7 +39,7 @@ async function run(): Promise<void> {
   core.info(`ℹ️ Current latest version (without prefix) ${latestVersion}`);
   let newVersion: string;
   if (yearUpdate && releaseType === 'minor' && major(latestVersion) !== new Date().getFullYear()) {
-    newVersion = `${new Date().getFullYear()}.0.0`;
+    newVersion = `${new Date().getFullYear()}.1.0`;
   } else if (yearUpdate && releaseType === 'major') {
     core.setFailed(`ℹ️ Cannot update to a new major version with year update enabled.`);
     return;
