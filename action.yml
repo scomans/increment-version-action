@@ -15,6 +15,10 @@ inputs:
     required: false
     default: "false"
     description: 'Whether to replace the major version on minor update with the current year'
+  short_year:
+    required: false
+    default: "false"
+    description: 'Whether to replace the major version on minor update with the current year in short format (YY)'
   github_token:
     required: false
     description: 'GitHub token to talk to the API with'

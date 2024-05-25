@@ -7,6 +7,7 @@ async function run(): Promise<void> {
   const token = core.getInput('github_token');
   const tagPrefix = core.getInput('tagPrefix') || undefined;
   const yearUpdate = core.getBooleanInput('year');
+  const shortYearUpdate = core.getBooleanInput('short_year');
   let repo = (core.getInput('repo') || undefined)?.split('/');
   repo ||= [github.context.repo.owner, github.context.repo.repo];
 
@@ -39,7 +40,11 @@ async function run(): Promise<void> {
   core.info(`ℹ️ Current latest version (without prefix) ${latestVersion}`);
   let newVersion: string;
   if (yearUpdate && releaseType === 'minor' && major(latestVersion) !== new Date().getFullYear()) {
-    newVersion = `${new Date().getFullYear()}.1.0`;
+    let year = new Date().getFullYear();
+    if (shortYearUpdate) {
+      year = year % 2000;
+    }
+    newVersion = `${year}.1.0`;
   } else if (yearUpdate && releaseType === 'major') {
     core.setFailed(`ℹ️ Cannot update to a new major version with year update enabled.`);
     return;
