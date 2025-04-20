@@ -39,7 +39,7 @@ async function run(): Promise<void> {
   }
   core.info(`ℹ️ Current latest version (without prefix) ${latestVersion}`);
   let newVersion: string;
-  if (yearUpdate && releaseType === 'minor' && major(latestVersion) !== new Date().getFullYear()) {
+  if (yearUpdate && releaseType === 'minor' && major(latestVersion) !== new Date().getFullYear() % 1000) {
     let year = new Date().getFullYear();
     if (shortYearUpdate) {
       year = year % 2000;
