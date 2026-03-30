@@ -12,7 +12,9 @@ async function run(): Promise<void> {
   repo ||= [github.context.repo.owner, github.context.repo.repo];
 
   if (repo.length !== 2) {
-    core.setFailed(`Invalid repo "${repo.join('/')}". Must be in the format: <owner>/<repo>`);
+    core.setFailed(
+      `Invalid repo "${repo.join('/')}". Must be in the format: <owner>/<repo>`,
+    );
     return;
   }
 
@@ -22,34 +24,52 @@ async function run(): Promise<void> {
     case 'patch':
       break;
     default:
-      core.setFailed(`Invalid release type "${releaseType}". Must be one of: MAJOR, MINOR, PATCH`);
+      core.setFailed(
+        `Invalid release type "${releaseType}". Must be one of: MAJOR, MINOR, PATCH`,
+      );
       return;
   }
 
   const octokit = github.getOctokit(token);
   const res = await octokit.rest.repos.listReleases({
     repo: repo[1],
-    owner: repo[0]
+    owner: repo[0],
   });
 
-  let latestVersion = res.data.filter(release => !release.prerelease)[0].tag_name ?? '0.0.0';
+  let latestVersion =
+    res.data.filter(release => !release.prerelease)[0].tag_name ?? '0.0.0';
   core.info(`ℹ️ Current latest version ${latestVersion}`);
   if (tagPrefix && latestVersion.startsWith(tagPrefix)) {
     latestVersion = latestVersion.substring(tagPrefix.length);
   }
   core.info(`ℹ️ Current latest version (without prefix) ${latestVersion}`);
-  let newVersion: string;
-  if (yearUpdate && releaseType === 'minor' && major(latestVersion) !== new Date().getFullYear() % 1000) {
+  let newVersion: string | undefined;
+  if (
+    yearUpdate &&
+    releaseType === 'minor' &&
+    major(latestVersion) !== new Date().getFullYear() % 1000
+  ) {
     let year = new Date().getFullYear();
     if (shortYearUpdate) {
       year = year % 2000;
     }
     newVersion = `${year}.1.0`;
   } else if (yearUpdate && releaseType === 'major') {
-    core.setFailed(`ℹ️ Cannot update to a new major version with year update enabled.`);
+    core.setFailed(
+      `ℹ️ Cannot update to a new major version with year update enabled.`,
+    );
     return;
   } else {
-    newVersion = inc(latestVersion, releaseType);
+    const incrementedVersion = inc(latestVersion, releaseType);
+    if (incrementedVersion) {
+      newVersion = incrementedVersion;
+    }
+  }
+  if (!newVersion) {
+    core.setFailed(
+      `ℹ️ Failed to increment version. Latest version: ${latestVersion}, release type: ${releaseType}`,
+    );
+    return;
   }
 
   core.setOutput('newVersion', newVersion);

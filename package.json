@@ -2,12 +2,16 @@
   "name": "increment-version-action",
   "private": true,
   "description": "GitHub Action that increments version based on the current latest release",
-  "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build ./src/main.ts",
-    "start": "npx ncc run ./src/main.ts",
-    "lint": "eslint src/**/*.ts"
+    "bundle": "npm run format:write && npm run package",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint": "eslint src/**/*.ts",
+    "local-action": "npx @github/local-action . src/main.ts .env",
+    "package": "npx rimraf ./dist && npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "package:watch": "npm run package -- --watch"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scomans/increment-version-action.git"
@@ -19,22 +23,36 @@
   ],
   "author": "scomans",
   "license": "MIT",
+  "exports": {
+    ".": "./dist/main.js"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/exec": "^1.1.1",
-    "@actions/github": "^6.0.0",
-    "semver": "^7.7.1"
+    "@actions/core": "^3.0.0",
+    "@actions/exec": "^3.0.0",
+    "@actions/github": "^9.0.0",
+    "semver": "^7.7.4"
   },
   "devDependencies": {
-    "@types/glob": "^8.1.0",
+    "@eslint/compat": "^2.0.3",
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^10.0.1",
+    "@github/local-action": "^7.0.1",
+    "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@types/node": "^20.11.30",
-    "@types/semver": "^7.5.8",
-    "@typescript-eslint/parser": "^7.3.1",
-    "@vercel/ncc": "^0.38.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-github": "^4.10.2",
-    "js-yaml": "^4.1.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.8.3"
+    "@types/semver": "^7.7.1",
+    "@typescript-eslint/eslint-plugin": "^8.57.2",
+    "@typescript-eslint/parser": "^8.57.2",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-github": "^6.0.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
+    "rollup": "^4.60.1",
+    "typescript": "^6.0.2"
   }
 }

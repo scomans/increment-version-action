@@ -1,13 +1,14 @@
 # Increment version based on latest release action
 
-This action gets the apps affected by the changes since the last successful build and sets them as outputs.
+This action gets the apps affected by the changes since the last successful
+build and sets them as outputs.
 
 ## Inputs
 
 ### `repo`
 
-The report to check for releases (Defaults to environment variable: `GITHUB_REPOSITORY`).
-Example: `scomans/increment-version-action`
+The report to check for releases (Defaults to environment variable:
+`GITHUB_REPOSITORY`). Example: `scomans/increment-version-action`
 
 ### `tagPrefix`
 
@@ -54,11 +55,11 @@ jobs:
     outputs:
       newVersion: ${{ steps.version_increment.outputs.newVersion }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: scomans/increment-version-action@v1
+      - uses: scomans/increment-version-action@v3
         id: version_increment
         with:
           branch: ${{ github.event.inputs.type }}
@@ -69,5 +70,6 @@ jobs:
     needs: increment-version
     steps:
       - name: Update version in source
-        run: <DO THE UPDATE HERE> ${{ needs.increment-version.output.newVersion }}
+        run:
+          <DO THE UPDATE HERE> ${{ needs.increment-version.output.newVersion }}
 ```

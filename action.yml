@@ -1,24 +1,32 @@
 name: 'increment-version-action'
-description: 'GitHub Action that increments version based on the current latest release'
+description:
+  'GitHub Action that increments version based on the current latest release'
 author: 'scomans'
 inputs:
   repo:
     required: false
-    description: 'The report to check for releases. Example: scomans/increment-version-action'
+    description:
+      'The report to check for releases. Example:
+      scomans/increment-version-action'
   tagPrefix:
     required: false
-    description: 'The prefix that might be in front of the version. Example: `v`'
+    description:
+      'The prefix that might be in front of the version. Example: `v`'
   releaseType:
     required: true
     description: 'The release type. Possible values: MAJOR, MINOR, PATCH'
   year:
     required: false
-    default: "false"
-    description: 'Whether to replace the major version on minor update with the current year'
+    default: 'false'
+    description:
+      'Whether to replace the major version on minor update with the current
+      year'
   short_year:
     required: false
-    default: "false"
-    description: 'Whether to replace the major version on minor update with the current year in short format (YY)'
+    default: 'false'
+    description:
+      'Whether to replace the major version on minor update with the current
+      year in short format (YY)'
   github_token:
     required: false
     description: 'GitHub token to talk to the API with'
@@ -30,5 +38,5 @@ outputs:
     description: 'The version before the increment'
 
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
