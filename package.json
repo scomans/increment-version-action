@@ -1,6 +1,6 @@
 {
   "name": "increment-version-action",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": true,
   "description": "GitHub Action that increments version based on the current latest release",
   "scripts": {
